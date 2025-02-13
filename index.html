@@ -5,112 +5,101 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kasih Coklat?</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: url('https://source.unsplash.com/random/1920x1080/?chocolate') no-repeat center center/cover;
-            animation: moveBg 10s linear infinite;
-        }
-        @keyframes moveBg {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+            background-color: #fdd835;
+            transition: background 0.5s;
         }
         .container {
-            position: relative;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-            max-width: 400px;
-            text-align: center;
-        }
-        h1 {
-            font-size: 22px;
-            margin-bottom: 20px;
+            margin-top: 50px;
         }
         img {
-            width: 250px;
+            max-width: 300px;
             height: auto;
             border-radius: 10px;
             margin-bottom: 20px;
         }
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+        h2 {
+            font-size: 24px;
         }
-        button {
-            font-size: 18px;
+        .buttons {
+            margin-top: 20px;
+        }
+        .btn {
             padding: 10px 20px;
+            font-size: 18px;
             border: none;
             cursor: pointer;
-            transition: 0.3s;
+            margin: 10px;
             border-radius: 5px;
+            transition: 0.3s;
         }
         .yes {
-            background-color: green;
+            background-color: #4CAF50;
             color: white;
         }
         .no {
-            background-color: red;
+            background-color: #f44336;
             color: white;
-            position: relative;
+            position: absolute;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1 id="slideText">Apakah kamu mau kasih saya coklat?</h1>
-        <img id="slideImage" src="https://source.unsplash.com/250x200/?chocolate1" alt="Gambar Coklat">
-        <div class="buttons">
-            <button class="yes" onclick="nextSlide()">Yes</button>
-            <button class="no" id="noButton" onclick="moveNo()">No</button>
-        </div>
+
+<div class="container">
+    <img id="chocoImage" src="https://images.app.goo.gl/KJke1dibxkPHvM2g8" alt="Coklat">
+    <h2 id="question">Apakah kamu mau kasih saya coklat?</h2>
+    <div class="buttons">
+        <button class="btn yes" onclick="yesClicked()">Yes</button>
+        <button class="btn no" onclick="moveNo()">No</button>
     </div>
+</div>
 
-    <script>
-        let currentSlide = 0;
-        const slides = [
-            { text: "Apakah kamu mau kasih saya coklat?", img: "https://source.unsplash.com/250x200/?chocolate1" },
-            { text: "Yakin nih?🤔 Aku baik loh", img: "https://source.unsplash.com/250x200/?chocolate2" },
-            { text: "Kasih lah minimal", img: "https://source.unsplash.com/250x200/?chocolate3" },
-            { text: "Saya menunggu coklat darimu!", img: "https://source.unsplash.com/250x200/?chocolate4" }
-        ];
+<script>
+    let index = 0;
+    let texts = [
+        "Apakah kamu mau kasih saya coklat?",
+        "Yakin nih?🤔, Aku baik loh",
+        "Kasih lah minimal",
+        "Ayolah",
+        "Sekali lagi klik yes",
+        "Ok kalau gitu"
+    ];
+    let images = [
+        "https://images.app.goo.gl/KJke1dibxkPHvM2g8",
+        "https://images.app.goo.gl/h4oak2TdnUkY4irk9",
+        "https://images.app.goo.gl/9xfHN8h5p4PzmtDt8",
+        "https://images.app.goo.gl/6KMvZtjmE77fu4HK8",
+        "https://images.app.goo.gl/B1wk2bxvusc6YgLF8",
+        "https://images.app.goo.gl/EyLcqLt2TRfi9g2u5"
+    ];
 
-        function nextSlide() {
-            if (currentSlide < slides.length - 1) {
-                currentSlide++;
-                updateSlide();
+    function moveNo() {
+        let btnNo = document.querySelector(".no");
+        let randomX = Math.random() * (window.innerWidth - 100);
+        let randomY = Math.random() * (window.innerHeight - 100);
+        btnNo.style.left = `${randomX}px`;
+        btnNo.style.top = `${randomY}px`;
+
+        if (index < texts.length - 1) {
+            index++;
+            document.getElementById("question").innerText = texts[index];
+            document.getElementById("chocoImage").src = images[index];
+
+            if (index === texts.length - 1) {
+                document.querySelector(".no").style.display = "none"; // Hilangkan tombol No di slide terakhir
             }
         }
+    }
 
-        function moveNo() {
-            if (currentSlide < slides.length - 1) {
-                let noButton = document.getElementById("noButton");
-                let randomX = Math.random() * 100 - 50;
-                let randomY = Math.random() * 100 - 50;
-                noButton.style.transform = `translate(${randomX}px, ${randomY}px)`;
-            }
+    function yesClicked() {
+        if (index === texts.length - 1) {
+            document.body.innerHTML = "<h2>Saya menunggu coklat darimu</h2>";
         }
+    }
+</script>
 
-        function updateSlide() {
-            document.getElementById("slideText").innerText = slides[currentSlide].text;
-            document.getElementById("slideImage").src = slides[currentSlide].img;
-
-            if (currentSlide === slides.length - 1) {
-                document.getElementById("noButton").style.display = "none";
-            }
-        }
-    </script>
 </body>
 </html>
