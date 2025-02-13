@@ -13,9 +13,10 @@
         }
         .container {
             margin-top: 50px;
+            position: relative;
         }
         img {
-            max-width: 300px;
+            max-width: 250px;
             height: auto;
             border-radius: 10px;
             margin-bottom: 20px;
@@ -25,9 +26,11 @@
         }
         .buttons {
             margin-top: 20px;
+            position: relative;
+            display: inline-block;
         }
         .btn {
-            padding: 10px 20px;
+            padding: 12px 24px;
             font-size: 18px;
             border: none;
             cursor: pointer;
@@ -43,17 +46,26 @@
             background-color: #f44336;
             color: white;
             position: absolute;
+            transition: top 0.3s ease-out, left 0.3s ease-out;
+        }
+        .final-message {
+            font-size: 30px;
+            margin-top: 20px;
+        }
+        .final-image {
+            width: 250px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <img id="chocoImage" src="https://images.app.goo.gl/KJke1dibxkPHvM2g8" alt="Coklat">
+    <img id="chocoImage" src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Chocolate.jpg" alt="Coklat">
     <h2 id="question">Apakah kamu mau kasih saya coklat?</h2>
     <div class="buttons">
         <button class="btn yes" onclick="yesClicked()">Yes</button>
-        <button class="btn no" onclick="moveNo()">No</button>
+        <button class="btn no" id="noButton" onclick="moveNo()">No</button>
     </div>
 </div>
 
@@ -68,18 +80,22 @@
         "Ok kalau gitu"
     ];
     let images = [
-        "https://images.app.goo.gl/KJke1dibxkPHvM2g8",
-        "https://images.app.goo.gl/h4oak2TdnUkY4irk9",
-        "https://images.app.goo.gl/9xfHN8h5p4PzmtDt8",
-        "https://images.app.goo.gl/6KMvZtjmE77fu4HK8",
-        "https://images.app.goo.gl/B1wk2bxvusc6YgLF8",
-        "https://images.app.goo.gl/EyLcqLt2TRfi9g2u5"
+        "https://upload.wikimedia.org/wikipedia/commons/6/6a/Chocolate.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Chocolate_bar.jpg/800px-Chocolate_bar.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Chocolate_truffle.jpg/800px-Chocolate_truffle.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Chocolate_mousse.jpg/800px-Chocolate_mousse.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Chocolate_chips.jpg/800px-Chocolate_chips.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Chocolate_cake.jpg/800px-Chocolate_cake.jpg"
     ];
 
     function moveNo() {
-        let btnNo = document.querySelector(".no");
-        let randomX = Math.random() * (window.innerWidth - 100);
-        let randomY = Math.random() * (window.innerHeight - 100);
+        let btnNo = document.getElementById("noButton");
+        let maxX = window.innerWidth - btnNo.offsetWidth - 20;
+        let maxY = window.innerHeight - btnNo.offsetHeight - 20;
+
+        let randomX = Math.random() * maxX;
+        let randomY = Math.random() * maxY;
+
         btnNo.style.left = `${randomX}px`;
         btnNo.style.top = `${randomY}px`;
 
@@ -89,14 +105,17 @@
             document.getElementById("chocoImage").src = images[index];
 
             if (index === texts.length - 1) {
-                document.querySelector(".no").style.display = "none"; // Hilangkan tombol No di slide terakhir
+                btnNo.style.display = "none"; // Hilangkan tombol No di slide terakhir
             }
         }
     }
 
     function yesClicked() {
         if (index === texts.length - 1) {
-            document.body.innerHTML = "<h2>Saya menunggu coklat darimu</h2>";
+            document.body.innerHTML = `
+                <h2 class="final-message">Saya menunggu coklat darimu 🍫</h2>
+                <img class="final-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Chocolate_cake.jpg/800px-Chocolate_cake.jpg" alt="Coklat">
+            `;
         }
     }
 </script>
