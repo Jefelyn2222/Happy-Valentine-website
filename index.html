@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kasih Coklat?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('https://source.unsplash.com/random/1920x1080/?chocolate') no-repeat center center/cover;
+            animation: moveBg 10s linear infinite;
+        }
+        @keyframes moveBg {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        img {
+            width: 250px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 5px;
+        }
+        .yes {
+            background-color: green;
+            color: white;
+        }
+        .no {
+            background-color: red;
+            color: white;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="slideText">Apakah kamu mau kasih saya coklat?</h1>
+        <img id="slideImage" src="https://source.unsplash.com/250x200/?chocolate1" alt="Gambar Coklat">
+        <div class="buttons">
+            <button class="yes" onclick="nextSlide()">Yes</button>
+            <button class="no" id="noButton" onclick="moveNo()">No</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = [
+            { text: "Apakah kamu mau kasih saya coklat?", img: "https://source.unsplash.com/250x200/?chocolate1" },
+            { text: "Yakin nih?🤔 Aku baik loh", img: "https://source.unsplash.com/250x200/?chocolate2" },
+            { text: "Kasih lah minimal", img: "https://source.unsplash.com/250x200/?chocolate3" },
+            { text: "Saya menunggu coklat darimu!", img: "https://source.unsplash.com/250x200/?chocolate4" }
+        ];
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function moveNo() {
+            if (currentSlide < slides.length - 1) {
+                let noButton = document.getElementById("noButton");
+                let randomX = Math.random() * 100 - 50;
+                let randomY = Math.random() * 100 - 50;
+                noButton.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            }
+        }
+
+        function updateSlide() {
+            document.getElementById("slideText").innerText = slides[currentSlide].text;
+            document.getElementById("slideImage").src = slides[currentSlide].img;
+
+            if (currentSlide === slides.length - 1) {
+                document.getElementById("noButton").style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
